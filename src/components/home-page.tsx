@@ -1,20 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import useFetch from './fetch-data';
 import '../styles/home-page.scss';
 import img_profile from '../assets/img_profile.svg';
 import { getFullDate } from './common';
 import buttonsTop from '../assets/buttons-top.png';
 import SVG from '../assets/svg';
+import { updateFavorite, getFavorite } from './local-storage'
 
 export default function HomePage() {
     const {loading, messages} =  useFetch();
-    
+    const [state, setState] = useState<boolean>(false);    
     useEffect(()=> {
           
         }, []);
-   const updateFavorite = (id:number):void=> {
-      console.log(id)
-   }
+
   return (
     <div className="home-page-container"> 
         {loading?<div className='loader'><span></span></div>:null}<br></br>
@@ -44,8 +43,8 @@ export default function HomePage() {
                             <div className='img-container' >
                                <img src={buttonsTop} alt='img' />
                             </div>
-                            <div className='svg-container'onClick={()=> updateFavorite(item.id)}>
-                              <SVG name='star' color='blue' />
+                            <div className='svg-container' onClick={() => {updateFavorite(parseInt(item.id)); setState(state => !state)} }>
+                              {getFavorite(parseInt(item.id))? <SVG name='star' color='blue' />: <SVG name='star' color='lightgray' />}
                             </div>
                           </div>
                         </div>
